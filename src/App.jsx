@@ -10,9 +10,24 @@ function App() {
   const firebaseRef = collection(firestore, "(default)");
 
   const [payload, setPayload] = useState({});
+  const [message, setMessage] = useState({ message: "", show: false });
+  const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async () => {
     try {
+      setIsLoading(true);
       const result = await addDoc(firebaseRef, payload);
+      setIsLoading(false);
+      setMessage({
+        message: "Successfully saved data to firebase",
+        show: true
+      });
+
+      setTimeout(() => {
+        setMessage({
+          message: "",
+          show: false
+        });
+      }, 3000);
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -22,8 +37,6 @@ function App() {
     const { value, name } = e.target;
     setPayload({ ...payload, [name]: value });
   };
-
-  console.log(payload);
 
   return (
     <div className="w-full h-dvh bg-primary">
@@ -35,6 +48,17 @@ function App() {
               src="./Referenta.svg"
               alt="referenta"
             />
+            {message.show && (
+              <div className="w-2/5 border-t-4 rounded-b text-white bg-success opacity-95 px-4 py-3 mb-5 shadow-md">
+                <div className="flex">
+                  <div className="py-1"></div>
+                  <div>
+                    <p className="font-bold">Awesome!</p>
+                    <p className="text-sm">{message.message}</p>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="border-4 w-2/5 rounded-xl border-disabled p-4">
               <div className="flex">
                 <div className="flex-1 w-6/12 px-5 py-2 font-medium">
@@ -107,6 +131,7 @@ function App() {
                   Reset
                 </Button>
                 <Button
+                  isLoading={isLoading}
                   onClick={(e) => onSubmit(e)}
                   color="primary"
                   style={{ width: "130px" }}

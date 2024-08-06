@@ -6,7 +6,8 @@ export default {
       primary: "#1b8f75",
       white: "#fff",
       disabled: "#cccfd1",
-      black: "#1a262f"
+      black: "#1a262f",
+      success: "#4BB543"
     },
     extend: {}
   },

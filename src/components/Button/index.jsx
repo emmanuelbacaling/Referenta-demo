@@ -1,13 +1,16 @@
 const Button = (props) => {
-  const { style, children, color, onClick } = props || "";
+  const { style, children, color, onClick, isLoading } = props || "";
 
   return (
     <button
       onClick={onClick}
       style={style}
-      className={`w-auto bg-${color} py-2 px-2 rounded-lg text-white`}
+      disabled={isLoading}
+      className={`w-auto bg-${
+        isLoading ? "disabled" : color
+      } py-2 px-2 rounded-lg text-white`}
     >
-      {children}
+      {isLoading ? "Processing..." : children}
     </button>
   );
 };
